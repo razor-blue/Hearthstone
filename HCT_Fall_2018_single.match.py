@@ -4,9 +4,12 @@ Created on Sun Jan 14 15:30:43 2018
 
 @author: Lukasz
 """
+from typing import List, Optional
+
 import pandas as pd
 import random
 import numpy as np
+from pandas import DataFrame
 
 data = pd.read_csv("HTC_FALL_OK_2018_winratios.csv")
 
@@ -42,6 +45,7 @@ player_list = ['bloodyface', 'DacRyvius', 'GoeLionKing', 'Sintolol', 'Caimiao', 
 player_ids = [blo, Dac, Goe, Sin, Cai, Moy, Aku, jus, LPT, Hat, Ing, Blo, Isl, REN, Tyl, Tin]
 
 
+# player1/2 - decklist of player1/2
 def game(player1, player2):
     win1 = 0
     win2 = 0
@@ -72,6 +76,8 @@ def game(player1, player2):
         return 1
     else:
         return 0
+
+# select players to fight
 
 
 p1 = Tin
