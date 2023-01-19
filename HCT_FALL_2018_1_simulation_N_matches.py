@@ -61,9 +61,9 @@ result = np.zeros(16, dtype=int)
 # print(list(players.keys())[list(players.values()).index(SU)])
 
 
-def game(pl1, pl2):
-    player1 = pl1[:]
-    player2 = pl2[:]
+def game(p1, p2):
+    player1 = p1[:]
+    player2 = p2[:]
 
     # preparation
     value_min = 1.0
@@ -80,11 +80,11 @@ def game(pl1, pl2):
                     df[(df.player_archetype == idc1) & (df.opponent_archetype == idc2)]['win_rate'] / 100.0)
                 # print(idc1,idc2,win_ratio)
 
-            if win_ratio > max:
+            if win_ratio > value_max:
                 value_max = win_ratio
                 ban1 = idc1
 
-            if win_ratio < min:
+            if win_ratio < value_min:
                 value_min = win_ratio
                 ban2 = idc2
 
@@ -94,14 +94,14 @@ def game(pl1, pl2):
     # ban1 = player1[np.random.choice([0,1,2,3])]
     # ban2 = player2[np.random.choice([0,1,2,3])]
 
-    n = 10001
+    n = 1001
 
     results = np.zeros(n, dtype=int)
 
     for it in range(0, n):
 
-        player1 = pl1[:]
-        player2 = pl2[:]
+        player1 = p1[:]
+        player2 = p2[:]
 
         player1.remove(ban1)
         player2.remove(ban2)
@@ -133,11 +133,11 @@ def game(pl1, pl2):
                 player2.remove(deck2)
 
         if win1 > win2:
-            # return pl1,pl2
+            # return p1,p2
             results[it] = 1
             # print(it,results)
         else:
-            # return pl2,pl1
+            # return p2,p1
             results[it] = 2
             # print(it,results)
 
@@ -145,9 +145,9 @@ def game(pl1, pl2):
     # print(it,results)
 
     if results[int((n - 1) / 2)] == 1:
-        return pl1, pl2
+        return p1, p2
     else:
-        return pl2, pl1
+        return p2, p1
 
 
 for i in range(0, 1):
@@ -174,18 +174,18 @@ for i in range(0, 1):
 
     for pp in range(0, 4):
 
-        p1, p2, p3, p4 = player_ids[4 * pp:4 * pp + 4]
+        pl1, pl2, pl3, pl4 = player_ids[4 * pp:4 * pp + 4]
 
-        print('First game', list(players.keys())[list(players.values()).index(p1)],
-              list(players.keys())[list(players.values()).index(p2)])
-        p1w, p1l = game(p1[:], p2[:])
+        print('First game', list(players.keys())[list(players.values()).index(pl1)],
+              list(players.keys())[list(players.values()).index(pl2)])
+        p1w, p1l = game(pl1[:], pl2[:])
         print('Wins', list(players.keys())[list(players.values()).index(p1w)])
         card_packs_given[list(players.keys())[list(players.values()).index(p1w)]] += 1
         # print(p1w,p1l)
 
-        print('Second game', list(players.keys())[list(players.values()).index(p3)],
-              list(players.keys())[list(players.values()).index(p4)])
-        p2w, p2l = game(p3[:], p4[:])
+        print('Second game', list(players.keys())[list(players.values()).index(pl3)],
+              list(players.keys())[list(players.values()).index(pl4)])
+        p2w, p2l = game(pl3[:], pl4[:])
         print('Wins', list(players.keys())[list(players.values()).index(p2w)])
         card_packs_given[list(players.keys())[list(players.values()).index(p2w)]] += 1
         # print(p2w,p2l)
@@ -213,19 +213,19 @@ for i in range(0, 1):
 
         # print(list(players.keys())[list(players.values()).index(p2ww)],list(players.keys())[list(players.values()).index(p3wwl)])
 
-        if (p2ww == p1) or (p3wwl == p1):
+        if (p2ww == pl1) or (p3wwl == pl1):
             result[4 * pp + 0] += 1
             # print('Player',list(players.keys())[list(players.values()).index(p1)],'+1=',result[4*pp+0])
 
-        if (p2ww == p2) or (p3wwl == p2):
+        if (p2ww == pl2) or (p3wwl == pl2):
             result[4 * pp + 1] += 1
             # print('Player',list(players.keys())[list(players.values()).index(p2)],'+1=',result[4*pp+1])
 
-        if (p2ww == p3) or (p3wwl == p3):
+        if (p2ww == pl3) or (p3wwl == pl3):
             result[4 * pp + 2] += 1
             # print('Player',list(players.keys())[list(players.values()).index(p3)],'+1=',result[4*pp+2])
 
-        if (p2ww == p4) or (p3wwl == p4):
+        if (p2ww == pl4) or (p3wwl == pl4):
             result[4 * pp + 3] += 1
             # print('Player',list(players.keys())[list(players.values()).index(p4)],'+1=',result[4*pp+3])
 
